@@ -9,8 +9,6 @@ class VentanaPySide():
         self.ventana.setWindowTitle('POO con PySide')
         self.ventana.resize(600, 400)
 
-
-
 if __name__ == '__main__':
     #necesitamos un objeto de esta clase para procesar los eventos de la aplicacion
     #podemos recivir argumentos desde la linesa de comandos con sys.argv dentro de () sin los []
