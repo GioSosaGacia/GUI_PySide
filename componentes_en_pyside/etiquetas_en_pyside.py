@@ -9,7 +9,8 @@ QMainWindow es la clase padre
 import sys
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap
-from PySide6.QtWidgets import QMainWindow, QApplication, QLabel, QCheckBox, QComboBox, QListWidget, QLineEdit
+from PySide6.QtWidgets import QMainWindow, QApplication, QLabel, QCheckBox, QComboBox, QListWidget, QLineEdit, QSpinBox, \
+    QDoubleSpinBox, QSlider, QDial
 
 '''
 #etiquetas
@@ -162,6 +163,8 @@ class Componentes(QMainWindow):
 
 #QlineEdit permite capturar informacion que escriba el usuario
 #linea de edicion de texto
+
+'''
 class Componentes(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -202,6 +205,108 @@ class Componentes(QMainWindow):
     def cambio_texto(self, cambio_texto):
         print('Cambio de texto')
         print(cambio_texto)
+        '''
+
+#QSpinBox se utiliza para seleccionar un valor numerico
+'''
+class Componentes(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle('Componentes')
+        #numero = QSpinBox()#solo valores numerico
+        numero = QDoubleSpinBox()#valores flotantes
+        #PODEMOS ESTABLECER UN RANGO DE VALORES
+        #numero.setMinimum(-5)
+        #numero.setMaximum(5)
+        numero.setRange(-5.5,8.0)
+        #Establecemos un prefijo->antes y sufijo->despues
+        numero.setPrefix('$')
+        numero.setSuffix('c')
+        #podemos establecer el salto o step, de dos en dos o el valor desceado
+        numero.setSingleStep(.5)
+        #ahora nos conectaremos a las señales y eventos de este componente
+        #valuechange -> numerico, textchange-> sufijo o prefijo
+        #evento de cambio de valor, valor numerico
+        numero.valueChanged.connect(self.cambio_numerico)
+        #2do envia el valor en texto, incluyendo prefi y sufij
+        numero.textChanged.connect(self.cambio_texto)
+
+
+    #publicamos el componente
+        self.setCentralWidget(numero)
+
+    def cambio_numerico(self,nuevo_valor):
+        print(f'Nuevo valor: {nuevo_valor}')
+
+    def cambio_texto(self, nuevo_texto):
+        print(f'Nuevo texto: {nuevo_texto}')
+'''
+
+#QSlider permite usar valores enteros aplicados a un deslizable
+'''
+class Componentes(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle('Componentes')
+        #componente = QSlider(Qt.Horizontal)
+        componente = QSlider(Qt.Vertical)
+        componente.setMaximum(-5)
+        componente.setMaximum(10)
+        componente.setRange(-5,8)
+
+        #Conectamos las señales,con el slots
+        componente.valueChanged.connect(self.cambio_valor)
+        #funcionan al arratrar el slider
+        componente.sliderMoved.connect(self.slider_cambio_posicion)#cuando moemos el componente
+        componente.sliderPressed.connect(self.slider_presionado)
+        componente.sliderReleased.connect(self.slider_liberado)
+
+    #publicamos el componente
+        self.setCentralWidget(componente)
+
+    def cambio_valor(self, nuevo_valor):
+        print(f'Nuevo valor: {nuevo_valor}')
+
+    def slider_cambio_posicion(self, nueva_posicion):
+        print(f'Nueva posicion: {nueva_posicion} ')
+
+    def slider_presionado(self):
+        print(f'Slider presionado')
+    def slider_liberado(self):
+        print(f'SliderLibre')
+        
+        '''
+
+#componente QDial se parece a qslider
+class Componentes(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle('Componentes')
+        #qdial es una rueda es una rueda similar al slider pero utilizado para aplicaciones de audio
+        componente = QDial()
+        componente.setRange(-5, 50)
+
+        #Conectamos las señales,con el slots
+        componente.valueChanged.connect(self.cambio_valor)
+        #funcionan al arratrar el slider
+        componente.sliderMoved.connect(self.slider_cambio_posicion)#cuando moemos el componente
+        componente.sliderPressed.connect(self.slider_presionado)
+        componente.sliderReleased.connect(self.slider_liberado)
+
+        #publicamos el componente
+        self.setCentralWidget(componente)
+
+    def cambio_valor(self, nuevo_valor):
+        print(f'Nuevo valor: {nuevo_valor}')
+
+    def slider_cambio_posicion(self, nueva_posicion):
+        print(f'Nueva posicion: {nueva_posicion} ')
+
+    def slider_presionado(self):
+        print(f'QDial presionado')
+    def slider_liberado(self):
+        print(f'Qdial Libre')
+
 
 if __name__ == '__main__':
     #Creamos el objeto de la aplicacion
