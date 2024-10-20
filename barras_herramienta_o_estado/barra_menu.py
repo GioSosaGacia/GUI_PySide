@@ -65,6 +65,42 @@ class VentanaPrincipal(QMainWindow):
         barra.addSeparator()
         barra.addWidget(QLabel('Salir'))
 
+#agregar menus y sub-menus, de qmainwindow
+        #Con Alt + la inicial de la pestaña a seleccionar podemos ingresar al opcion deseada del menu
+        #Para activar esa opcion a los programas que creamos debemos de usar & antes de crear el menu, & no funciona en mac
+        menu = self.menuBar()
+        menu_archivo = menu.addMenu('&Archivo')
+        #podemos compartir acciones entre nuestros componentes
+        menu_archivo.addAction(boton_nuevo)#se agrego a la barra, pero ahora tambien lo agregamos a nuestro menu
+
+#agregamos una segunda opcion
+        menu_archivo.addAction(boton_guardar)
+
+#Podemos agregar un separador
+        menu_archivo.addSeparator()
+
+        #agregamos una tercera opcion
+        boton_salir = QAction('Salir', self)
+        menu_archivo.addAction(boton_salir)
+
+
+#submenu ayuda
+        boton_acerca_de = QAction(QIcon('acerca.png'),'Acerca De', self)
+        menu_ayuda = menu.addMenu('Ayuda')
+        menu_ayuda.addAction(boton_acerca_de)
+
+        boton_acerca_de.triggered.connect(self.click_boton_acerca_de)
+
+#podemos crear un submenu dentro de otro submenu
+        menu_archivo.addMenu(menu_ayuda)
+
+#creación de atajos para nuestro menu: Combinación de teclas, funciona en cualquier sistema operativo
+        #boton_nuevo.setShortcut('Ctrl+n')
+        #OTRA MANERA USANDO CONSTANTES
+        boton_nuevo.setShortcut(Qt.CTRL | Qt.Key_N)
+        boton_acerca_de.setShortcut(Qt.CTRL | Qt.Key_1)
+        #ATAJO DE GUARDAR
+        boton_guardar.setShortcut(Qt.CTRL | Qt.Key_G)
 
 
     def click_boton_nuevo(self,s):#s-> estado
@@ -72,6 +108,9 @@ class VentanaPrincipal(QMainWindow):
 
     def click_boton_guardar(self,s):
         print(f'Guardar archivo: {s} ')
+
+    def click_boton_acerca_de(self,s):
+        print(f'Acerca de... {s} ')
 
 
 if __name__ == '__main__':
