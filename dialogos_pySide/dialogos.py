@@ -2,7 +2,8 @@
 Dialogos: es una ventana que permite interactuar con el usuario, esta ventana dependera de
     una ventana padre, una ventana de dialogo sirve para informar al usuario de una cuestion que se presenta en el sistema
 '''
-from PySide6.QtWidgets import QMainWindow, QApplication, QPushButton, QDialog, QDialogButtonBox, QVBoxLayout, QLabel
+from PySide6.QtWidgets import QMainWindow, QApplication, QPushButton, QDialog, QDialogButtonBox, QVBoxLayout, QLabel, \
+    QHBoxLayout
 
 
 #Extender de la clase Dialog para crear ventanas de manera mas sencilla
