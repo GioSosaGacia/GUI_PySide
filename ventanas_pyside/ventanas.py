@@ -1,5 +1,6 @@
 '''
 Esta creacion de la ventana es aparte de la ventana principal
+Una ventana de dialogo bloquea la ventana principal y una ventana no bloquea la ventana principal
 '''
 from random import randint
 from PySide6.QtWidgets import QMainWindow, QApplication, QWidget, QPushButton, QVBoxLayout, QLabel, QLineEdit
