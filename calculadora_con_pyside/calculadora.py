@@ -1,6 +1,5 @@
 import sys
 from functools import partial
-
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QMainWindow, QApplication, QWidget, QVBoxLayout, QLineEdit, QGridLayout, QPushButton
 
@@ -9,7 +8,7 @@ class Calculadora(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Calculadora')
-        self.setFixedSize(235,235)
+        self.setFixedSize(240,240)
         #agregamos un componente para poder publicar el layout
         self.componente_general = QWidget(self)
         #publicamos el componente general
@@ -22,7 +21,7 @@ class Calculadora(QMainWindow):
         self._crear_area_captura()
         self._crear_botones()
         #conectamos las señales con los slots de cada uno de los botones
-        self.conectar_botones()
+        self._conectar_botones()
 
     def _crear_area_captura(self):
         #par capturara la informacion creamos una entrada de tipo lineedit
@@ -72,13 +71,50 @@ class Calculadora(QMainWindow):
         self.layout_principal.addLayout(layout_botones)
 
 #necesitaremos unos metodos adicionales
-    def conctar_botones(self):
+    def _conectar_botones(self):
         #Recorrer cada boton del diccionario (key:value) (texto:PushButton)
         for texto_boton, boton in self.botones.items():
+            #solo en 2 casos no queremos asignar el slot en = y C
             if texto_boton not in {'=','C'}:
+                #Lambda se manda a llamar asta que se presiona el boton y recoje el utimo dato que seria = de la variable texto_boton
                 #boton.clicked.connect(lambda: self._construir_expresion(texto_boton))
+        #Cuendo se de clicked en un boton nos conectamos a tal señal
+        #_construir_expresion: texto_boton:
+        #partial permite asociar la llamada del metodo con el parametro respetivo de manera fija
                 boton.clicked.connect(partial(self._construir_expresion, texto_boton))
+        #CONECTAMOS EL botonde limpiar texto C -> clear en ingles
+            self.botones['C'].clicked.connect(self._limpiar_linea_entrada)
+    #se realizara de dos formas 1. si presiona la tecla =, 2. al presionar enter sobre la linea de enetrada con returnPressed
+        #conectamos el boton de igual = para evaluar la expresion
+            self.botones['='].clicked.connect(self._calcular_resultado)
+            self.linea_entrada.returnPressed.connect(self._calcular_resultado)
 
+    def _construir_expresion(self, texto_boton):
+        expresion = self.obtener_texto() + texto_boton
+        #actualizar la expresion de entrada
+        self.actualizar_texto(expresion)
+
+    def obtener_texto(self):
+        return self.linea_entrada.text()
+
+    def actualizar_texto(self, texto):
+        self.linea_entrada.setText(texto)
+        self.linea_entrada.setFocus()
+
+    def _limpiar_linea_entrada(self):
+        self.actualizar_texto('')
+
+    def _calcular_resultado(self):
+        resultado = self._evaluar_expresion(self.obtener_texto())
+        self.actualizar_texto(resultado)
+
+    def _evaluar_expresion(self, expresion):
+        try:
+            #Utilizamos eval para evaluar la expresion
+            resultado = str(eval(expresion))
+        except Exception as e:
+            resultado = 'Ocurrio un error '
+        return resultado
 
 
 
