@@ -1,6 +1,9 @@
 import sys
 from functools import partial
+from idlelib.zoomheight import set_window_geometry
+
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QApplication, QWidget, QVBoxLayout, QLineEdit, QGridLayout, QPushButton
 
 
