@@ -26,7 +26,7 @@ archivo.close()
 
 #manejo de context manager en clases, ahi dos opciones
 #1. Implementando el protocolo con las funciones (__enter__) y (__exit__)
-#2. Utilizando la libreria de contextlib
+
 
 #1er opcion
 class ManejoArchivos:
