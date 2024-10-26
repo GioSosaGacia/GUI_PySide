@@ -5,6 +5,8 @@ El uso del afirmar en Python nos permite verificar que una determinada condició
 
  Son herramientas que ayudan a garantizar que el programa se esté comportando como se espera en puntos
  específicos.
+ assert condición, "Mensaje opcional de error"
+
 '''
 
 #Ejemplo 1, revisamos si la dicicion es entre cero 0 assert

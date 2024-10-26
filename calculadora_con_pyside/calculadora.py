@@ -117,6 +117,7 @@ class Calculadora(QMainWindow):
             resultado = str(eval(expresion))
         except Exception as e:
             resultado = 'Ocurrio un error '
+            print(f'Ocurrio un error: {resultado}')
         return resultado
 
 
